@@ -1,12 +1,12 @@
 const { User } = require("../models");
 const { signToken } = require("../utils/auth");
 
-const signUp = async (_, { firstName, lastName, email, password }) => {
-  const user = await User.create({ firstName, lastName, email, password });
+const signUp = async (_, { input }) => {
+  const user = await User.create(input);
 
-  delete user.password;
+  const { firstName, lastName, email, _id: id } = user;
 
-  const token = signToken(user);
+  const token = signToken({ firstName, lastName, email, id });
 
   return {
     token,

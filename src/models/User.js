@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const { hashPassword, validatePassword } = require("../utils/password");
 
 const schema = {
-  fistName: {
+  firstName: {
     type: String,
     required: true,
   },

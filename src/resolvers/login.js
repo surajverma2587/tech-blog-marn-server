@@ -3,22 +3,22 @@ const { AuthenticationError } = require("apollo-server");
 const { User } = require("../models");
 const { signToken } = require("../utils/auth");
 
-const login = async (_, { email, password }) => {
-  const user = await User.find({ email });
+const login = async (_, { input }) => {
+  const user = await User.findOne({ email: input.email });
 
   if (!user) {
     throw new AuthenticationError("User does not exist");
   }
 
-  const isValidPassword = user.validatePassword(password);
+  const isValidPassword = await user.validatePassword(input.password);
 
   if (!isValidPassword) {
     throw new AuthenticationError("Failed login");
   }
 
-  delete user.password;
+  const { firstName, lastName, email, _id: id } = user;
 
-  const token = signToken(user);
+  const token = signToken({ firstName, lastName, email, id });
 
   return {
     token,
