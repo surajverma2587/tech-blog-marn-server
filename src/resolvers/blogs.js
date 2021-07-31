@@ -1,16 +1,13 @@
-const blogs = () => {
-  return [
-    {
-      id: "123",
-      title: "Foo bar",
-      content: "This is foo bar!!",
-    },
-    {
-      id: "456",
-      title: "Biz baz",
-      content: "This is biz baz!!",
-    },
-  ];
+const { Blog } = require("../models");
+
+const blogs = async (_, { userId }) => {
+  let blogs;
+  if (userId) {
+    blogs = await Blog.find({ user: userId }).populate("user");
+  } else {
+    blogs = await Blog.find({}).populate("user");
+  }
+  return blogs;
 };
 
 module.exports = blogs;
