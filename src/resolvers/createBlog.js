@@ -7,7 +7,7 @@ const createBlog = async (_, { input }, context) => {
     const { title, content, user } = input;
 
     if (user === context.user.id) {
-      const blog = await Blog.create({ title, content });
+      const blog = await Blog.create({ title, content, user });
 
       return blog;
     } else {
