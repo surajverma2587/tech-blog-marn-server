@@ -7,4 +7,8 @@ const signToken = (payload) => {
   return jwt.sign(payload, secret, { expiresIn });
 };
 
-module.exports = { signToken };
+const verifyToken = (token) => {
+  return jwt.verify(token, secret, { maxAge: expiresIn });
+};
+
+module.exports = { signToken, verifyToken };
